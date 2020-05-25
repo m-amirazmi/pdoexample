@@ -64,12 +64,42 @@
 	// echo $postCount;
 
 	// INSERT DATA
-	$title = 'Post Five';
-	$body = 'This is post five';
-	$author = 'Kevin';
+	// $title = 'Post Five';
+	// $body = 'This is post five';
+	// $author = 'Kevin';
 
-	$sql = 'INSERT INTO posts(title, body, author) VALUES(:title, :body, :author)';
+	// $sql = 'INSERT INTO posts(title, body, author) VALUES(:title, :body, :author)';
+	// $stmt = $pdo->prepare($sql);
+	// $stmt->execute(['title'=>$title, 'body'=>$body, 'author'=>$author]);
+
+	// echo 'Post Added';
+
+	// UPDATE DATA
+	// $id = 1;
+	// $body = 'This is updated post';
+
+	// $sql = 'UPDATE posts SET body = :body WHERE id = :id';
+	// $stmt = $pdo->prepare($sql);
+	// $stmt->execute(['body'=>$body, 'id'=>$id]);
+
+	// echo 'Post Updated';
+
+	//DELETE DATA
+	// $id = 3;
+
+	// $sql = 'DELETE FROM posts WHERE id = :id';
+	// $stmt = $pdo->prepare($sql);
+	// $stmt->execute(['id'=>$id]);
+
+	// echo 'Post Deleted';
+
+	// SEARCH DATA
+	$search = "%f%";
+	$sql = 'SELECT * FROM posts WHERE title LIKE ?';
 	$stmt = $pdo->prepare($sql);
-	$stmt->execute(['title'=>$title, 'body'=>$body, 'author'=>$author]);
+	$stmt->execute([$search]);
+	$posts = $stmt->fetchAll();
 
-	echo 'Post Added';
+	foreach ($posts as $post) {
+		echo $post->title . '<br>';
+	}
