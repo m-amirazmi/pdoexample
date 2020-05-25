@@ -30,6 +30,7 @@
 	// User Input
 	$author = 'Brad';
 	$is_published = true;
+	$id = 1;
 
 	// Positional Params (using ?)
 	// $sql = 'SELECT * FROM  posts WHERE author = ?';
@@ -38,12 +39,37 @@
 	// $posts = $stmt->fetchAll();
 
 	// Named Params (using :name)
-	$sql = 'SELECT * FROM  posts WHERE author = :author && is_published = :is_published';
-	$stmt = $pdo->prepare($sql);
-	$stmt->execute(['author'=>$author, ':is_published'=>$is_published]);
-	$posts = $stmt->fetchAll();
+	// $sql = 'SELECT * FROM  posts WHERE author = :author && is_published = :is_published';
+	// $stmt = $pdo->prepare($sql);
+	// $stmt->execute(['author'=>$author, ':is_published'=>$is_published]);
+	// $posts = $stmt->fetchAll();
 
-	// var_dump($posts);
-	foreach ($posts as $post) {
-		echo $post->title .'<br>';
-	}
+	// // var_dump($posts);
+	// foreach ($posts as $post) {
+	// 	echo $post->title .'<br>';
+	// }
+
+	// FETCH SINGLE POST
+	// $sql = 'SELECT * FROM  posts WHERE id=:id';
+	// $stmt = $pdo->prepare($sql);
+	// $stmt->execute(['id'=>$id]);
+	// $post = $stmt->fetch();
+	// echo $post->body;
+
+	// GET ROW COUNT
+	// $stmt = $pdo->prepare('SELECT * FROM posts WHERE author = ?');
+	// $stmt->execute([$author]);
+	// $postCount = $stmt->rowCount();
+
+	// echo $postCount;
+
+	// INSERT DATA
+	$title = 'Post Five';
+	$body = 'This is post five';
+	$author = 'Kevin';
+
+	$sql = 'INSERT INTO posts(title, body, author) VALUES(:title, :body, :author)';
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute(['title'=>$title, 'body'=>$body, 'author'=>$author]);
+
+	echo 'Post Added';
