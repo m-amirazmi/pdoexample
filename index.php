@@ -10,6 +10,7 @@
 	// Create PDO instance
 	$pdo = new PDO($dsn, $user, $password);
 	$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+	$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
 	#PDO Query
 	$stmt = $pdo->query('SELECT * FROM posts');
@@ -31,12 +32,13 @@
 	$author = 'Brad';
 	$is_published = true;
 	$id = 1;
+	$limit = 1;
 
 	// Positional Params (using ?)
-	// $sql = 'SELECT * FROM  posts WHERE author = ?';
-	// $stmt = $pdo->prepare($sql);
-	// $stmt->execute([$author]);
-	// $posts = $stmt->fetchAll();
+	$sql = 'SELECT * FROM  posts WHERE author = ? && is_published = ? LIMIT ?';
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute([$author, $is_published, $limit]);
+	$posts = $stmt->fetchAll();
 
 	// Named Params (using :name)
 	// $sql = 'SELECT * FROM  posts WHERE author = :author && is_published = :is_published';
@@ -45,9 +47,9 @@
 	// $posts = $stmt->fetchAll();
 
 	// // var_dump($posts);
-	// foreach ($posts as $post) {
-	// 	echo $post->title .'<br>';
-	// }
+	foreach ($posts as $post) {
+		echo $post->title .'<br>';
+	}
 
 	// FETCH SINGLE POST
 	// $sql = 'SELECT * FROM  posts WHERE id=:id';
@@ -94,12 +96,12 @@
 	// echo 'Post Deleted';
 
 	// SEARCH DATA
-	$search = "%f%";
-	$sql = 'SELECT * FROM posts WHERE title LIKE ?';
-	$stmt = $pdo->prepare($sql);
-	$stmt->execute([$search]);
-	$posts = $stmt->fetchAll();
+	// $search = "%five%";
+	// $sql = 'SELECT * FROM posts WHERE title LIKE ?';
+	// $stmt = $pdo->prepare($sql);
+	// $stmt->execute([$search]);
+	// $posts = $stmt->fetchAll();
 
-	foreach ($posts as $post) {
-		echo $post->title . '<br>';
-	}
+	// foreach ($posts as $post) {
+	// 	echo $post->title . '<br>';
+	// }
